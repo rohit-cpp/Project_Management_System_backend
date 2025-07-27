@@ -18,7 +18,7 @@ import {
 import { Filter, FilterIcon, SearchIcon } from "lucide-react";
 import ProjectCard from "../Project/ProjectCard";
 
-const tags = [
+export const tags = [
   "all",
   "react",
   "nextjs",
