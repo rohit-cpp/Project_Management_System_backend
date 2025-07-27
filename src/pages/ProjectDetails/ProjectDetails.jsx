@@ -14,6 +14,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlusIcon } from "lucide-react";
 import InviteUserForm from "./InviteUserForm";
+import IssueList from "./IssueList";
+import ChatBox from "./ChatBox";
 const ProjectDetails = () => {
   const handleProjectInvitation = () => {};
   return (
@@ -73,9 +75,20 @@ const ProjectDetails = () => {
                   </div>
                 </div>
               </div>
+              <section>
+                <div>
+                  <p className="py-5 border-b text-lg tracking-wider">Task</p>
+                  <div className="lg:flex md:flex gap-3 justify-between py-5">
+                    <IssueList status="pending" title="Todo List" />
+                    <IssueList status="in-progress" title="In progress" />
+                    <IssueList status="done" title="Done" />
+                  </div>
+                </div>
+              </section>
             </div>
           </ScrollArea>
         </div>
+        <ChatBox />
       </div>
     </div>
   );
