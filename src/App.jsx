@@ -10,21 +10,28 @@ import { Route, Routes } from "react-router-dom";
 import ProjectDetails from "./pages/ProjectDetails/ProjectDetails";
 import IssueDetails from "./pages/IssueDetails/IssueDetails";
 import Subscription from "./pages/Subscription/Subscription";
+import Auth from "./pages/Auth/Auth";
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/project/:id" element={<ProjectDetails />} />
-        <Route
-          path="/project/:projectId/issue/:issueId"
-          element={<IssueDetails />}
-        />
-        <Route path="/upgrade_plan" element={<Subscription />} />
-      </Routes>
+      {true ? (
+        <div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/project/:id" element={<ProjectDetails />} />
+            <Route
+              path="/project/:projectId/issue/:issueId"
+              element={<IssueDetails />}
+            />
+            <Route path="/upgrade_plan" element={<Subscription />} />
+          </Routes>
+        </div>
+      ) : (
+        <Auth />
+      )}
     </div>
   );
 }
