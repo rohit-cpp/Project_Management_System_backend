@@ -20,9 +20,9 @@ const ProjectDetails = () => {
   const handleProjectInvitation = () => {};
   return (
     <div>
-      <div className="mt-5 lg:px-10">
+      <div className="mt-5 lg:px-10 flex">
         <div className="lg:flex gap-5 justify-between pb-4">
-          <ScrollArea className="h-screen lg:w-[69%] pr-2">
+          <ScrollArea className="h-screen lg:w-[100%] pr-2">
             <div className="text-gray-400 pb-10 w-full">
               <h1 className="text-lg font-semibold pb-5">
                 Create Ecommerce Website using React
@@ -88,7 +88,9 @@ const ProjectDetails = () => {
             </div>
           </ScrollArea>
         </div>
-        <ChatBox />
+        <div className="lg:w-[30%] rounded-md sticky right-5 top-10">
+          <ChatBox />
+        </div>
       </div>
     </div>
   );
