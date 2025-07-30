@@ -30,8 +30,14 @@ import {
 import { DotSquareIcon, Menu, UserIcon } from "lucide-react";
 import UserList from "./UserList";
 import { useNavigate } from "react-router-dom";
-const IssueCard = () => {
+import { useDispatch } from "react-redux";
+import { deleteIssue } from "../../Redux/Issue/Action";
+const IssueCard = ({ item, projectId }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleIssueDelete = () => {
+    dispatch(deleteIssue(item.id));
+  };
   return (
     <div className="rounded-md py-1 pb-2">
       <Card>
@@ -39,10 +45,10 @@ const IssueCard = () => {
           <div className="flex justify-between items-center">
             <CardTitle
               className="cursor-pointer"
-              onClick={() => navigate("/project/3/issue/10")}
+              onClick={() => navigate(`/project/${projectId}/issue/${item.id}`)}
             >
               {" "}
-              Create Navbar
+              <p>{item.title}</p>
             </CardTitle>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -54,7 +60,9 @@ const IssueCard = () => {
                 <DropdownMenuItem>In progress</DropdownMenuItem>
                 <DropdownMenuItem>Done</DropdownMenuItem>
                 <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleIssueDelete}>
+                  Delete
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -76,7 +84,7 @@ const IssueCard = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <UserList />
+                <UserList issueDetails={item} />
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

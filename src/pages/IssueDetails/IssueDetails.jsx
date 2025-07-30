@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -25,25 +25,35 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlusIcon } from "lucide-react";
 import CreateCommentForm from "./CreateCommentForm";
 import CommentCard from "./CommentCard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchIssueById, updateIssueStatus } from "../../Redux/Issue/Action";
+import { store } from "../../Redux/Store";
+import { fetchComments } from "../../Redux/Comment/Action";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
+  const dispatch = useDispatch();
+  const { issue, comment } = useSelector((store) => store);
   const handleUpdateIssueStatus = (status) => {
+    dispatch(updateIssueStatus({ status, id: issueId }));
     console.log(status);
   };
+  useEffect(() => {
+    dispatch(fetchIssueById(issueId));
+    dispatch(fetchComments(issueId));
+  }, [issueId]);
   return (
     <div className="px-20 py-8 text-gray-400">
       <div className="flex justify-between border p-10 rounded-lg">
         <ScrollArea className="h-[80vh] w-[60%]">
           <div>
             <h1 className="text-lg font-semibold text-gray-400">
-              Create navabar
+              {issue.issueDetails?.title}
             </h1>
             <div className="py-5">
               <h2 className="font-semibold">Description</h2>
               <p className="text-gray-400 text-sm mt-3">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Adipisci
+                {issue.issueDetails?.description}
               </p>
             </div>
             <div className="mt-5">
@@ -61,8 +71,8 @@ const IssueDetails = () => {
                 <TabsContent value="comments">
                   <CreateCommentForm issueId={issueId} />
                   <div className="mt-8 space-y-6">
-                    {[1, 1, 1].map((item) => (
-                      <CommentCard key={item} />
+                    {comment.comments.map((item) => (
+                      <CommentCard item={item} key={item} />
                     ))}
                   </div>
                 </TabsContent>
@@ -90,12 +100,18 @@ const IssueDetails = () => {
               <div className="space-y-7">
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Assigned</p>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>R</AvatarFallback>
-                    </Avatar>
-                    <p>code wioth rohit</p>
-                  </div>
+                  {issue.issueDetails?.assigned?.fullName ? (
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8 text-xs">
+                        <AvatarFallback>
+                          {issue.issueDetails?.assigned?.fullName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <p> {issue.issueDetails?.assigned?.fullName}</p>
+                    </div>
+                  ) : (
+                    <p>unassigned</p>
+                  )}
                 </div>
               </div>
 
@@ -107,7 +123,7 @@ const IssueDetails = () => {
 
             <div className="flex gap-10 items-center">
               <p className="w-[7rem]">Status</p>
-              <Badge>in_progress</Badge>
+              <Badge>{issue.issueDetails?.status}</Badge>
             </div>
             <div className="flex gap-10 items-center">
               <p className="w-[7rem]">Realese</p>

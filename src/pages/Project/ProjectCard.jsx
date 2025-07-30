@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardAction,
@@ -20,8 +20,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DonutIcon, DotIcon, Menu, MenuIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-const ProjectCard = () => {
+import { useDispatch } from "react-redux";
+import { deleteProject, fetchProjectById } from "../../Redux/Project/Action";
+const ProjectCard = ({ item }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteProject({ projectId: item.id }));
+  };
+
   return (
     <div>
       <Card className="p-5 w-full lg:max-w-3xl">
@@ -29,13 +37,13 @@ const ProjectCard = () => {
           <div className="flex justify-between">
             <div className="flex items-center gap-5">
               <h1
-                onClick={() => navigate("/project/3")}
+                onClick={() => navigate("/project/" + item.id)}
                 className="cursor-pointer font-bold text-lg"
               >
-                Create Ecommerce Project
+                {item.name}
               </h1>
               <DotIcon />
-              <p className="text-sm text-gray-400">fullstack</p>
+              <p className="text-sm text-gray-400">{item.category}</p>
             </div>
             <div>
               <DropdownMenu>
@@ -46,21 +54,19 @@ const ProjectCard = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenu>Update</DropdownMenu>
-                  <DropdownMenu>Delete</DropdownMenu>
+                  <DropdownMenu>
+                    {" "}
+                    <Button onClick={handleDelete}> Delete</Button>
+                  </DropdownMenu>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
-          <p>
-            {" "}
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Totam
-            placeat nostrum assumenda numquam corrupti alias nisi. Minima,
-            impedit aliquam modi perferendis fugiat soluta.
-          </p>
+          <p> {item.description}</p>
           <div className="flex flex-wrap gap-2 items-center">
-            {[1, 1, 1, 1].map((item) => (
+            {item.tags.map((tag) => (
               <Badge key={item} variant="outline">
-                {"frontend"}
+                {tag}
               </Badge>
             ))}
           </div>

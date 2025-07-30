@@ -33,14 +33,14 @@ export const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        projects: action.payload,
+        projects: action.projects,
         error: null,
       };
     case SEARCH_PROJECT_SUCCESS:
       return {
         ...state,
         loading: false,
-        searchProjects: action.payload,
+        searchProjects: action.projects,
         error: null,
       };
     case CREATE_PROJECT_SUCCESS:
@@ -62,7 +62,7 @@ export const projectReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         projects: state.projects.filter(
-          (project) => project.id === action.projectId
+          (project) => project.id !== action.projectId
         ),
         error: null,
       };

@@ -9,7 +9,7 @@ export const fetchIssues = (id) => {
       console.log("fetch issues", response.data);
       dispatch({
         type: actionTypes.FETCH_ISSUES_SUCCESS,
-        issue: response.data,
+        issues: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -80,6 +80,49 @@ export const assignedUserToIssue = ({ issueId, userId }) => {
 
       dispatch({
         type: actionTypes.ASSIGNED_ISSUE_TO_USER_FAILURE,
+        error: error.message,
+      });
+    }
+  };
+};
+
+export const createIssue = (issueData) => {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.CREATE_ISSUE_REQUEST });
+    try {
+      const response = await api.post("/api/issues", issueData);
+      dispatch({
+        type: actionTypes.CREATE_ISSUE_SUCCESS,
+        issue: response.data,
+      });
+      console.log("issue created successfully", response.data);
+    } catch (error) {
+      dispatch({
+        type: actionTypes.CREATE_ISSUE_FAILURE,
+        error: error.message,
+      });
+    }
+  };
+};
+
+export const deleteIssue = (issueId) => {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.DELETE_ISSUE_REQUEST });
+
+    try {
+      const response = await api.delete(`/api/issues/${issueId}`);
+      console.log("Issue deleted successfully:", response.data);
+
+      dispatch({
+        type: actionTypes.DELETE_ISSUE_SUCCESS,
+        issueId: issueId,
+        message: response.data.message,
+      });
+    } catch (error) {
+      console.error("Error deleting issue:", error);
+
+      dispatch({
+        type: actionTypes.DELETE_ISSUE_FAILURE,
         error: error.message,
       });
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,8 +16,18 @@ import { PlusIcon } from "lucide-react";
 import InviteUserForm from "./InviteUserForm";
 import IssueList from "./IssueList";
 import ChatBox from "./ChatBox";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjectById } from "../../Redux/Project/Action";
+import { useParams } from "react-router-dom";
+import { store } from "../../Redux/Store";
 const ProjectDetails = () => {
+  const dispatch = useDispatch();
+  const { project } = useSelector((store) => store);
+  const { id } = useParams();
   const handleProjectInvitation = () => {};
+  useEffect(() => {
+    dispatch(fetchProjectById(id));
+  }, [id]);
   return (
     <div>
       <div className="mt-5 lg:px-10 flex">
@@ -25,22 +35,22 @@ const ProjectDetails = () => {
           <ScrollArea className="h-screen lg:w-[100%] pr-2">
             <div className="text-gray-400 pb-10 w-full">
               <h1 className="text-lg font-semibold pb-5">
-                Create Ecommerce Website using React
+                {project.projectDetails?.name}
               </h1>
               <div className="space-y-5 pb-10">
                 <p className="w-full md:max-w-lg lg:max-w-xl">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non
+                  {project.projectDetails?.description}
                 </p>
                 <div className="flex">
-                  <p className="w-36">Project Lead:</p>
-                  <p>Coder 360</p>
+                  <p className="w-36"> Project Lead:</p>
+                  <p> {project.projectDetails?.owner.fullName}</p>
                 </div>
                 <div className="flex">
                   <p className="w-36">Members :</p>
                   <div className="flex items-center gap-2">
-                    {[1, 1, 1, 1].map((item) => (
+                    {project.projectDetails?.team.map((item) => (
                       <Avatar key={item}>
-                        <AvatarFallback>Z</AvatarFallback>
+                        <AvatarFallback>{item.fullName[0]}</AvatarFallback>
                       </Avatar>
                     ))}
                   </div>
@@ -67,10 +77,10 @@ const ProjectDetails = () => {
                 <div>
                   <div className="flex">
                     <p className="w-36">Category :</p>
-                    <p>Full Stack</p>
+                    <p> {project.projectDetails?.category} </p>
                   </div>
                   <div className="flex">
-                    <p className="w-36">Project Lead :</p>
+                    <p className="w-36">Status</p>
                     <Badge>pending</Badge>
                   </div>
                 </div>

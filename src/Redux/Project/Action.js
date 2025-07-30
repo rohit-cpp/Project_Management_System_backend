@@ -44,7 +44,7 @@ export const searchProjects = (keyword) => async (dispatch) => {
 export const fetchProjectById = (id) => async (dispatch) => {
   dispatch({ type: FETCH_PROJECT_BY_ID_REQUEST });
   try {
-    const { data } = await api.post("/api/projects" + id);
+    const { data } = await api.get("/api/projects/" + id);
     console.log("project", data);
     dispatch({ type: FETCH_PROJECT_BY_ID_SUCCESS, project: data });
   } catch (error) {
@@ -68,7 +68,7 @@ export const deleteProject =
   async (dispatch) => {
     dispatch({ type: DELETE_PROJECT_REQUEST });
     try {
-      const { data } = await api.delete("/api/projects" + projectId);
+      const { data } = await api.delete("/api/projects/" + projectId);
       console.log("delete projects", data);
       dispatch({ type: DELETE_PROJECT_SUCCESS, projectId });
     } catch (error) {
