@@ -18,8 +18,11 @@ import { DialogClose } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { tags } from "../ProjectList/ProjectList";
 import { Cross, CrosshairIcon, CrossIcon } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { createProject } from "../../Redux/Project/Action";
 
 const CreateProjectForm = () => {
+  const dispatch = useDispatch();
   const handleTagsChange = (newValue) => {
     const currentTags = form.getValues("tags");
     const updatedTags = currentTags.includes(newValue)
@@ -38,6 +41,7 @@ const CreateProjectForm = () => {
   });
 
   const onSubmit = (data) => {
+    dispatch(createProject(data));
     console.log("create project data", data);
   };
 

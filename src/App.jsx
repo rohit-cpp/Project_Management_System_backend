@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -11,12 +11,23 @@ import ProjectDetails from "./pages/ProjectDetails/ProjectDetails";
 import IssueDetails from "./pages/IssueDetails/IssueDetails";
 import Subscription from "./pages/Subscription/Subscription";
 import Auth from "./pages/Auth/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./Redux/Auth/Action";
+import { store } from "./Redux/Store";
 function App() {
+  const dispatch = useDispatch();
+  const { auth } = useSelector((store) => store);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [auth.jwt]);
+  console.log(auth);
+
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      {true ? (
+      {auth.user ? (
         <div>
           <Navbar />
           <Routes>

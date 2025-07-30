@@ -19,8 +19,15 @@ import { Button } from "@/components/ui/Button";
 import CreateProjectForm from "../Project/CreateProjectForm";
 import { MenuIcon, User2Icon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../Redux/Auth/Action";
 const Navbar = () => {
+  const { auth } = useSelector((store) => store);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <div>
       <div className="border-b py-4 px-5 flex items-center justify-between">
@@ -54,10 +61,10 @@ const Navbar = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <p>click me</p>
+          <p>{auth.user?.fullName}</p>
         </div>
       </div>
     </div>

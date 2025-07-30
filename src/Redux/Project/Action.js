@@ -41,7 +41,7 @@ export const searchProjects = (keyword) => async (dispatch) => {
   }
 };
 
-export const createProject = (id) => async (dispatch) => {
+export const fetchProjectById = (id) => async (dispatch) => {
   dispatch({ type: FETCH_PROJECT_BY_ID_REQUEST });
   try {
     const { data } = await api.post("/api/projects" + id);
@@ -52,11 +52,11 @@ export const createProject = (id) => async (dispatch) => {
   }
 };
 
-export const fetchProjectById = (projectData) => async (dispatch) => {
+export const createProject = (projectData) => async (dispatch) => {
   dispatch({ type: CREATE_PROJECT_REQUEST });
   try {
-    const { data } = await api.get("/api/projects", projectData);
-    console.log("projects", data);
+    const { data } = await api.post("/api/projects", projectData);
+    console.log("create projects", data);
     dispatch({ type: CREATE_PROJECT_SUCCESS, project: data });
   } catch (error) {
     console.log("error", error);

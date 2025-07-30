@@ -10,8 +10,11 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/Auth/Action";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -20,7 +23,8 @@ const Login = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("create project data", data);
+    dispatch(login(data));
+    console.log("login project data", data);
   };
 
   return (
@@ -64,7 +68,7 @@ const Login = () => {
           />
 
           <Button type="submit" className="w-full py-5">
-            Register
+            Login
           </Button>
         </form>
       </Form>
