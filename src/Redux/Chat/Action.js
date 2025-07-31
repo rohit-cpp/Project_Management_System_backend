@@ -4,11 +4,12 @@ export const sendMessage = (messageData) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.SEND_MESSAGE_REQUEST });
     try {
-      const response = await api.post("/api/messages/send", messageData);
+      const response = await api.post("/api/message/send", messageData);
       dispatch({
         type: actionTypes.SEND_MESSAGE_SUCCESS,
         message: response.data,
       });
+      console.log("message sent", response.data);
     } catch (error) {
       console.log(error);
       dispatch({
@@ -43,7 +44,7 @@ export const fetchChatMessages = (chatId) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.FETCH_CHAT_MESSAGES_REQUEST });
     try {
-      const response = await api.get(`/api/messages/chat/${chatId}`);
+      const response = await api.get(`/api/message/chat/${chatId}`);
 
       console.log("fetch messages", response.data);
       dispatch({

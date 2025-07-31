@@ -13,7 +13,7 @@ const subscriptionReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: null_,
+        error: null,
       };
     case types.GET_USER_SUBSCRIPTION_SUCCESS:
       return {
